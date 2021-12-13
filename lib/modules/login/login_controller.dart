@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:meuapp/modules/login/repositories/login_repository.dart';
+import 'package:meuapp/shared/models/user_model.dart';
+import 'package:meuapp/shared/services/app_database.dart';
 import 'package:meuapp/shared/utils/app_state.dart';
 
 class LoginController extends ChangeNotifier {
+  final LoginRepository repository;
   AppState state = AppState.empty();
   final formKey = GlobalKey<FormState>();
   String _email = "";
   String _password = "";
+
+  LoginController({required this.repository});
 
   void onChange({String? email, String? password}) {
     _email = email ?? _email;
@@ -30,10 +36,11 @@ class LoginController extends ChangeNotifier {
     if (validate()) {
       try {
         update(AppState.loading());
-        await Future.delayed(Duration(seconds: 4));
-        update(AppState.success<String>("usuario logado"));
+        final response =
+            await repository.login(email: _email, password: _password);
+        update(AppState.success<UserModel>(response));
       } catch (e) {
-        update(AppState.error("não foi possivel realizar login"));
+        update(AppState.error(e.toString()));
       }
     }
   }

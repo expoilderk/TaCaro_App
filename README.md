@@ -11,6 +11,6 @@ Abaixo está o **FIGMA** do projeto, para ter acesso as fontes, cores e o design
 
 [Figma do projeto](https://www.figma.com/file/M60t8ulOCV7TCEYuLyrlA3/T%C3%A1-caro%3F?node-id=0%3A1)
 
-Estamos utilizando a Google UI toolkit chamada **Flutter** para realização do Projeto, se você deseja iniciar na tecnologia recomendo assistir o vídeo abaixo feito pelo @gabuldev, que é focado nisso e pode te ajudar.
+Estamos utilizando a Google UI toolkit chamada **Flutter** para realização do Projeto, se você deseja iniciar na tecnologia recomendo assistir o vídeo abaixo feito pelo [GabulDev](https://github.com/gabuldev/), que é focado nisso e pode te ajudar.
 
 [Iniciando no Flutter em 2021!](https://www.youtube.com/watch?v=PPA1ZZM7574)
