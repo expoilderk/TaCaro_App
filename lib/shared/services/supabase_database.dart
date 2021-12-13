@@ -12,8 +12,10 @@ class SupabaseDatabase implements AppDatabase {
 
   @override
   void init() {
-    client = SupabaseClient(const String.fromEnvironment("SUPABASEURL"),
-        const String.fromEnvironment("SUPABASEKEY"));
+    client = SupabaseClient(
+      const String.fromEnvironment("SUPABASEURL"),
+      const String.fromEnvironment("SUPABASEKEY"),
+    );
   }
 
   @override
@@ -37,7 +39,6 @@ class SupabaseDatabase implements AppDatabase {
       {required String email, required String password}) async {
     final response = await client.auth.signIn(email: email, password: password);
     if (response.error == null) {
-      //final user = UserModel.fromMap(response.user!.toJson());
       final user = await getUser(response.user!.id);
       return user;
     } else {
@@ -52,7 +53,7 @@ class SupabaseDatabase implements AppDatabase {
     if (response.error == null) {
       return user;
     } else {
-      throw Exception("Não foi possível cadastrar o usuario");
+      throw Exception("Não foi possível cadastrar o usuário");
     }
   }
 
@@ -64,7 +65,29 @@ class SupabaseDatabase implements AppDatabase {
       final user = UserModel.fromMap(response.data[0]);
       return user;
     } else {
-      throw Exception("Não foi possível buscar o usuario");
+      throw Exception("Não foi possível buscar o usuário");
     }
+  }
+
+  @override
+  Future<bool> create(
+      {required String table, required Map<String, dynamic> data}) async {
+    final response = await client.from(table).insert(data).execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    return true;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAll(String table) async {
+    final response =
+        await client.from(table).select("*").order("created").execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    return (response.data as List<dynamic>)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
   }
 }
